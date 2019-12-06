@@ -1,3 +1,5 @@
 {
-  "data_path" : "/home/ilyass/retina_unet/data/LIDC_IDRI_1-1012(no238-585)"
+  "data_path" : "/home/ilyass/retina_unet/data/LIDC_IDRI_1-1012(no238-585)",
+  "epochs" : 10,
+  "start_filters" : 32
 }
