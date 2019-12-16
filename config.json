@@ -1,5 +1,9 @@
 {
   "data_path" : "/home/ilyass/retina_unet/data/LIDC_IDRI_1-1012(no238-585)",
+  "list_nods" : "/home/ilyass/retina_unet/data/list_nodules.pickle",
+  "N" : 500,
   "epochs" : 10,
-  "start_filters" : 32
+  "start_filters" : 64,
+  "batch_size" : 8,
+  "lr" : 0.001
 }

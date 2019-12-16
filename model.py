@@ -86,7 +86,6 @@ class UNet(nn.Module):
     self.in_channels = in_channels
     self.n_classes = n_classes
     self.s_channels = s_channels
-    self.bilinear = bilinear
 
     self.conv = ConvUnit(in_channels, s_channels)
     self.enc1 = EncoderUnit(s_channels, 2 * s_channels)
