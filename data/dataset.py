@@ -23,7 +23,10 @@ class Dataset(data.Dataset):
   def __getitem__(self, index):
 
     nod = self.list_nod[index]
-
+    #print(nod["path"])
+    #print(nod["coord"])
+    #print(nod["diameter"])
+  
     # Load ct file
     path = os.path.join(self.data_path, nod["path"].split('/')[0], '*', '*')
     ct_scan, meta = nrrd.read(glob(os.path.join(path, "*CT.nrrd"))[0])
@@ -41,8 +44,14 @@ class Dataset(data.Dataset):
     padding = 32
     ct_scan = np.pad(ct_scan, ((padding,padding),(padding,padding),(padding,padding)), "constant", constant_values = ((-3000,-3000),(-3000,-3000),(-3000,-3000)))
     nod_mask = np.pad(nod_mask, ((padding,padding),(padding,padding),(padding,padding)), "constant", constant_values = ((0,0),(0,0),(0,0)))
-
+    
+    
+    ct_scan = utils.change_spacing(ct_scan, spacing)
+    nod_mask = utils.change_spacing(nod_mask, spacing)
+    
+    z,y,x = [int(x) for x in center_of_mass(nod_mask)]
+    
     d = 16
-    nod_box = nod_box[z - d:z + d, y - d:y + d, x - d:x + d]
+    ct_scan = ct_scan[z - d:z + d, y - d:y + d, x - d:x + d]
     nod_mask = nod_mask[z - d:z + d, y - d:y + d, x - d:x + d]
-    return nod_box[np.newaxis,:], nod_mask[np.newaxis,:]
+    return ct_scan[np.newaxis,:], nod_mask[np.newaxis,:]

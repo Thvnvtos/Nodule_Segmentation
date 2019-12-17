@@ -23,11 +23,12 @@ optimizer = optim.Adam(unet.parameters(), lr = conf["lr"])
 
 for epoch in range(conf["epochs"]):
   for batch, labels in train_gen:
-    nrrd.write(
-    batch, labels = batch.to(device), labels.to(device)
+    batch, labels = batch.to(device,dtype=torch.float), labels.to(device, dtype=torch.float)
     optimizer.zero_grad()
     logits = unet(batch)
     loss = criterion(logits, labels)
     loss.backward()
     optimizer.step()
     print(loss.item())
+  print("Finished Epoch ", epoch+1)
+  torch.save(unet.state_dict(), "./model")
